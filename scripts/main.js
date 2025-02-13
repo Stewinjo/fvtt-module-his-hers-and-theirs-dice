@@ -1,5 +1,5 @@
 Hooks.on('diceSoNiceReady', async function () {
-  console.log("Dice So Nice! is ready. Registering custom themes...");
+  console.log("HHTD | Dice So Nice! is ready. Registering custom themes...");
 
   const themes = [
     {
@@ -67,7 +67,7 @@ Hooks.on('diceSoNiceReady', async function () {
 
     game.dice3d.addColorset({
       name: theme.themeName,
-      description: `Custom dice theme for ${theme.themeName}`,
+      description: `${theme.themeName}' theme`,
       category: "Custom",
       foreground: theme.fontColor,
       background: theme.primaryColor,
@@ -79,29 +79,23 @@ Hooks.on('diceSoNiceReady', async function () {
     }, "default");
 
     applyAllDicePresets(theme);
-    console.log(`Custom Dice Theme "${theme.themeName}" added.`);
   }
 
-  ui.notifications.info("All custom dice themes and systems have been registered!");
+  console.log("HHTD | All custom dice themes and systems have been registered!");
 });
 
 function applyAllDicePresets(theme) {
-  const diceTypes = ["d2", "d3", "d4", "d6", "d8", "d10", "d12", "d14", "d16", "d20", "d24", "d30", "d100"];
+  const diceTypes = ["d2", "d3", "d4", "d6", "d8", "d10", "d12", "d14", "d16", "d20", "d24", "d30", "d100", "df"];
   diceTypes.forEach(type => {
     const labels = getLabelsForDiceType(type, theme.customFace);
     const emissiveMaps = theme.glowTarget ? getEmissiveMaps(labels, theme.customFace, theme.glowTarget) : Array(labels.length).fill(null);
     const shape = getShapesForDiceType(type);
 
-    // // Debugging logs
-    // console.log(`Applying ${type} for ${theme.themeName}`);
-    // console.log(`Labels for ${type}:`, labels);
-    // console.log(`Emissive Maps for ${type}:`, emissiveMaps);
-
     game.dice3d.addDicePreset({
       type: type,
       labels: labels,
       emissiveMaps: emissiveMaps,
-      emissive: theme.glowColor || 0x000000,  // Default to no glow
+      emissive: theme.glowColor || 0x000000,
       system: theme.themeName,
       colorset: theme.themeName,
       font: theme.font,
@@ -113,25 +107,21 @@ function applyAllDicePresets(theme) {
 function getLabelsForDiceType(type, customFace) {
   switch (type) {
     case "d2": return ["1", `modules/his-hers-and-theirs-dice/graphics/${customFace}`];
-    case "d3": return ["1", "2", "2", "3", "5", "6"];
-    case "d4": return Array(8).fill().map((_, i) => (i + 1).toString());  // No custom face, just standard numbers
-    case "d5": return ["1", "2", "3", "4", "5", "1", "2", "3", "4", "5"];  // No custom face, just standard numbers
+    case "d3": return ["1", "2", "2", "3", "3", "1"];
+    case "d4": return Array(8).fill().map((_, i) => (i + 1).toString());
+    // - WIP - case "d5": return ["1", "2", "3", "4", "5", "1", "2", "3", "4", "5"];
     case "d6": return ["1", "2", "3", "4", "5", `modules/his-hers-and-theirs-dice/graphics/${customFace}`];
-    case "d7": return ["1", "2", "3", "4", "5", "6", "7", "1", "2", "3", "4", "5", "6", "7"];  // No custom face, just standard numbers
-    case "d8": return Array(8).fill().map((_, i) => (i + 1).toString());  // No custom face, just standard numbers
-    case "d10": return Array(10).fill().map((_, i) => (i + 1).toString());  // No custom face, just standard numbers
-    case "d12": return Array(12).fill().map((_, i) => (i + 1).toString());  // No custom face, just standard numbers
-    case "d14": return Array(14).fill().map((_, i) => (i + 1).toString());  // No custom face, just standard numbers
-    case "d16": return Array(16).fill().map((_, i) => (i + 1).toString());  // No custom face, just standard numbers
+    // - WIP - case "d7": return ["1", "2", "3", "4", "5", "6", "7", "1", "2", "3", "4", "5", "6", "7"];
+    case "d8": return Array(8).fill().map((_, i) => (i + 1).toString());
+    case "d10": return Array(10).fill().map((_, i) => (i + 1).toString());
+    case "d12": return Array(12).fill().map((_, i) => (i + 1).toString());
+    case "d14": return Array(14).fill().map((_, i) => (i + 1).toString());
+    case "d16": return Array(16).fill().map((_, i) => (i + 1).toString());
     case "d20": return [...Array(19).fill().map((_, i) => (i + 1).toString()), `modules/his-hers-and-theirs-dice/graphics/${customFace}`];
-    case "d24": return Array(24).fill().map((_, i) => (i + 1).toString());  // No custom face, just standard numbers
-    case "d30": return Array(30).fill().map((_, i) => (i + 1).toString());  // No custom face, just standard numbers
-    case "d100": return ["10", "20", "30", "40", "50", "60", "70", "80", "90", "00"];  // No custom face, just standard numbers
-    case "df": return ["-", "-", "+", "+", " ", " "];
-    case "dc": return [
-      `modules/his-hers-and-theirs-dice/graphics/${customFace}`,  // Head side (custom face)
-      `modules/his-hers-and-theirs-dice/graphics/wolf-tail.webp`  // Tail side (custom wolf tail texture)
-    ];
+    case "d24": return Array(24).fill().map((_, i) => (i + 1).toString());
+    case "d30": return Array(30).fill().map((_, i) => (i + 1).toString());
+    case "d100": return ["10", "20", "30", "40", "50", "60", "70", "80", "90", "00"];
+    case "df": return ["-", " ", " ", "+", "+", "-"];
     default: return Array(6).fill().map((_, i) => (i + 1).toString());
   }
 }
