@@ -1,0 +1,30 @@
+{
+  "id": "his-hers-and-theirs-dice",
+  "title": "His, Hers and Theirs Dice!",
+  "version": "0.0.1",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "12",
+    "maximum": "12"
+  },
+  "scripts": ["scripts/main.js"],
+  "styles": ["styles/dicestyle.css"],
+  "relationships": {
+    "requires": [
+      {
+        "id": "dice-so-nice",
+        "type": "module"
+      }
+    ]
+  },
+  "description": "A custom module that adds unique Dice So Nice! themes modeled after renowned PCs and NPCs.",
+  "authors": [
+    {
+      "name": "Stewinjo",
+      "url": "https://github.com/Stewinjo/fvtt-module-his-hers-and-theirs-dice/"
+    }
+  ],
+  "url": "https://github.com/Stewinjo/fvtt-module-his-hers-and-theirs-dice/",
+  "manifest": "https://github.com/Stewinjo/fvtt-module-his-hers-and-theirs-dice/raw/main/module.json",
+  "download": "https://github.com/Stewinjo/fvtt-module-his-hers-and-theirs-dice/archive/refs/heads/main.zip"
+}
