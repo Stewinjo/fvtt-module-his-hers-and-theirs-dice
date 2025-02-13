@@ -162,34 +162,17 @@ function getShapesForDiceType(type) {
 function getEmissiveMaps(labels, customFace, glowTarget) {
   if (glowTarget === "faces") {
     return labels.map(label => {
-      // Check if the label is the custom face
       if (label === `modules/his-hers-and-theirs-dice/graphics/${customFace}`) {
-        // Use the custom emissive map if available; otherwise, fall back to the label itself
-        try {
-          // Generate the emissive map path
-          const emissiveMapPath = `modules/his-hers-and-theirs-dice/graphics/${customFace.replace(/\.webp$/, '_emissive.png')}`;
-          // Optional: Check if the file exists before returning
-          if (fileExists(emissiveMapPath)) {
-            return emissiveMapPath;
-          } else {
-            console.warn(`Emissive map not found: ${emissiveMapPath}`);
-            return label;
-          }
-        } catch (error) {
-          console.error(`Failed to apply emissive map: ${error}`);
-          return label;
-        }
+        // Check if the emissive map exists
+        const emissiveMap = `modules/his-hers-and-theirs-dice/graphics/${customFace.replace(/(\.webp|\.png)$/, '_emissive.png')}`;
+        return checkImageExists(emissiveMap) ? emissiveMap : label;
       }
-
-      // For other labels, assume the label itself is the emissive map
       return label;
     });
   } else if (glowTarget === "numbers") {
-    // Apply emissive map to all faces for glowing numbers
-    return labels;
+    return labels;  // This will make all numbers glow
   } else {
-    // Default: No emissive maps (used for whole-dice glow)
-    return Array(labels.length).fill(null);
+    return Array(labels.length).fill(null);  // No emissive maps
   }
 }
 
@@ -214,4 +197,14 @@ function getFontScaleForDiceType(type) {
     "dc": 1.5
   };
   return fontScales[type] || 1.0;
+}
+
+// Helper function to check if an image exists
+function checkImageExists(imagePath) {
+  const img = new Image();
+  img.src = imagePath;
+  return new Promise(resolve => {
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+  });
 }
