@@ -10,7 +10,7 @@ Hooks.on('diceSoNiceReady', async function () {
       texture: "metal",
       material: "metal",
       font: "Cinzel Decorative",
-      customFace: "detta.png",
+      customFace: "detta.webp",
       glowColor: 0x8ED1FC,
       glowTarget: "faces"
     },
@@ -22,7 +22,7 @@ Hooks.on('diceSoNiceReady', async function () {
       texture: "metal",
       material: "metal",
       font: "Rakkas",
-      customFace: "flodin.png",
+      customFace: "flodin.webp",
       glowColor: 0xFFA500,
       glowTarget: "faces"
     },
@@ -34,7 +34,7 @@ Hooks.on('diceSoNiceReady', async function () {
       texture: "marble",
       material: "glass",
       font: "Spectral SC",
-      customFace: "saris.png",
+      customFace: "saris.webp",
       glowColor: 0x5A3E72,
       glowTarget: "faces"
     },
@@ -46,7 +46,7 @@ Hooks.on('diceSoNiceReady', async function () {
       texture: "rough",
       material: "pristine",
       font: "Uncial Antiqua",
-      customFace: "trista.png"
+      customFace: "trista.webp"
     },
     {
       themeName: "Vidya",
@@ -56,7 +56,7 @@ Hooks.on('diceSoNiceReady', async function () {
       texture: "wood",
       material: "pristine",
       font: "IM Fell English SC",
-      customFace: "vidya.png",
+      customFace: "vidya.webp",
       glowColor: 0x8ED1FC,
       glowTarget: "faces"
     }
@@ -130,7 +130,7 @@ function getLabelsForDiceType(type, customFace) {
     case "df": return ["-", "-", "+", "+", " ", " "];
     case "dc": return [
       `modules/his-hers-and-theirs-dice/graphics/${customFace}`,  // Head side (custom face)
-      `modules/his-hers-and-theirs-dice/graphics/wolf-tail.png`  // Tail side (custom wolf tail texture)
+      `modules/his-hers-and-theirs-dice/graphics/wolf-tail.webp`  // Tail side (custom wolf tail texture)
     ];
     default: return Array(6).fill().map((_, i) => (i + 1).toString());
   }
