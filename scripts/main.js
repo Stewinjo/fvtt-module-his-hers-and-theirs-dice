@@ -161,12 +161,34 @@ function getShapesForDiceType(type) {
 
 function getEmissiveMaps(labels, customFace, glowTarget) {
   if (glowTarget === "faces") {
-    // Apply emissive map to all faces (to simulate glowing numbers)
-    return labels;
+    return labels.map(label => {
+      // Check if the label is the custom face
+      if (label === `modules/his-hers-and-theirs-dice/graphics/${customFace}`) {
+        // Use the custom emissive map if available; otherwise, fall back to the label itself
+        try {
+          // Generate the emissive map path
+          const emissiveMapREDACTEDh = `modules/his-hers-and-theirs-dice/graphics/${customFace.replace(/\.webp$/, '_emissive.png')}`;
+          // Optional: Check if the file exists before returning
+          if (fileExists(emissiveMapREDACTEDh)) {
+            return emissiveMapREDACTEDh;
+          } else {
+            console.warn(`Emissive map not found: ${emissiveMapREDACTEDh}`);
+            return label;
+          }
+        } catch (error) {
+          console.error(`Failed to apply emissive map: ${error}`);
+          return label;
+        }
+      }
+
+      // For other labels, assume the label itself is the emissive map
+      return label;
+    });
   } else if (glowTarget === "numbers") {
-    return labels;  // This will make all numbers glow
+    // Apply emissive map to all faces for glowing numbers
+    return labels;
   } else {
-    // Default: No emissive maps (used for whole-dice glow or edge glow)
+    // Default: No emissive maps (used for whole-dice glow)
     return Array(labels.length).fill(null);
   }
 }
