@@ -41,6 +41,14 @@ This module uses open-source fonts licensed under the **[SIL Open Font License (
 
 ---
 
+### 🎨 Special Thanks
+A huge thank you to **Ola Kaczorek** (*@the_real_kaczorek*) for creating the stunning custom face artwork featured in this module.
+- Website: [olakaczorek.com](https://olakaczorek.com)
+
+Your artistic contributions are greatly appreciated!
+
+---
+
 ### 📄 License
 Custom code and graphics are distributed under the **[Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by-nc-nd/4.0/)** unless otherwise specified.
 

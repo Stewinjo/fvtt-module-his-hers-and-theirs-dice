@@ -1,66 +1,12 @@
+import { readYAML } from "./yamlReader.js"; // A helper to read YAML
+
+const customFacesPath = "modules/his-hers-and-theirs-dice/assets/graphics/customFaces"
+const customEmissivePath = "modules/his-hers-and-theirs-dice/assets/graphics/emissiveMaps"
+
 Hooks.on('diceSoNiceReady', async function () {
   console.log("HHTD | Dice So Nice! is ready. Registering custom themes...");
 
-  const themes = [
-    {
-      themeName: "Detta",
-      primaryColor: "#1B1F3B",
-      edgeColor: "#C0C0C0",
-      fontColor: "#FFFFFF",
-      texture: "metal",
-      material: "metal",
-      font: "Cinzel Decorative",
-      customFace: "detta.webp",
-      glowColor: 0x8ED1FC,
-      glowTarget: "faces"
-    },
-    {
-      themeName: "Flodin",
-      primaryColor: "#8B4513",
-      edgeColor: "#FFD700",
-      fontColor: "#FFFFFF",
-      texture: "metal",
-      material: "metal",
-      font: "Rakkas",
-      customFace: "flodin.webp",
-      glowColor: 0xFFA500,
-      glowTarget: "faces"
-    },
-    {
-      themeName: "Saris",
-      primaryColor: "#0A0A0A",
-      edgeColor: "#5A3E72",
-      fontColor: "#FFFFFF",
-      texture: "marble",
-      material: "glass",
-      font: "Spectral SC",
-      customFace: "saris.webp",
-      glowColor: 0x5A3E72,
-      glowTarget: "faces"
-    },
-    {
-      themeName: "Trista",
-      primaryColor: "#A10000",
-      edgeColor: "#4D4D4D",
-      fontColor: "#FFFFFF",
-      texture: "rough",
-      material: "pristine",
-      font: "Uncial Antiqua",
-      customFace: "trista.webp"
-    },
-    {
-      themeName: "Vidya",
-      primaryColor: "#2E8B57",
-      edgeColor: "#C0C0C0",
-      fontColor: "#8ED1FC",
-      texture: "wood",
-      material: "pristine",
-      font: "IM Fell English SC",
-      customFace: "vidya.webp",
-      glowColor: 0x8ED1FC,
-      glowTarget: "faces"
-    }
-  ];
+  const themes = await readYAML("modules/his-hers-and-theirs-dice/assets/themes.yaml"); // Import theme definitions
 
   for (const theme of themes) {
     game.dice3d.addSystem({ id: theme.themeName, name: theme.themeName }, "default");
@@ -68,7 +14,7 @@ Hooks.on('diceSoNiceReady', async function () {
     game.dice3d.addColorset({
       name: theme.themeName,
       description: `${theme.themeName}' theme`,
-      category: "Custom",
+      category: "His, Hers and Theirs Dice",
       foreground: theme.fontColor,
       background: theme.primaryColor,
       edge: theme.edgeColor,
@@ -85,10 +31,10 @@ Hooks.on('diceSoNiceReady', async function () {
 });
 
 function applyAllDicePresets(theme) {
-  const diceTypes = ["d2", "d3", "d4", "d6", "d8", "d10", "d12", "d14", "d16", "d20", "d24", "d30", "d100", "df"];
+  const diceTypes = ["d2", "d3", "d4", "d5", "d6", "d7", "d8", "d10", "d12", "d14", "d16", "d20", "d24", "d30", "d100", "df"];
   diceTypes.forEach(type => {
-    const labels = getLabelsForDiceType(type, theme.customFace);
-    const emissiveMaps = theme.glowTarget ? getEmissiveMaps(labels, theme.customFace, theme.glowTarget) : Array(labels.length).fill(null);
+    const labels = getLabelsForDiceType(type, theme.customFaces);
+    const emissiveMaps = theme.glowTarget ? getEmissiveMaps(labels, theme.customFaces, theme.glowTarget) : Array(labels.length).fill(null);
     const shape = getShapesForDiceType(type);
 
     game.dice3d.addDicePreset({
@@ -104,26 +50,119 @@ function applyAllDicePresets(theme) {
   });
 }
 
-function getLabelsForDiceType(type, customFace) {
-  switch (type) {
-    case "d2": return ["1", `modules/his-hers-and-theirs-dice/graphics/${customFace}`];
-    case "d3": return ["1", "2", "2", "3", "3", "1"];
-    case "d4": return Array(8).fill().map((_, i) => (i + 1).toString());
-    // - WIP - case "d5": return ["1", "2", "3", "4", "5", "1", "2", "3", "4", "5"];
-    case "d6": return ["1", "2", "3", "4", "5", `modules/his-hers-and-theirs-dice/graphics/${customFace}`];
-    // - WIP - case "d7": return ["1", "2", "3", "4", "5", "6", "7", "1", "2", "3", "4", "5", "6", "7"];
-    case "d8": return Array(8).fill().map((_, i) => (i + 1).toString());
-    case "d10": return Array(10).fill().map((_, i) => (i + 1).toString());
-    case "d12": return Array(12).fill().map((_, i) => (i + 1).toString());
-    case "d14": return Array(14).fill().map((_, i) => (i + 1).toString());
-    case "d16": return Array(16).fill().map((_, i) => (i + 1).toString());
-    case "d20": return [...Array(19).fill().map((_, i) => (i + 1).toString()), `modules/his-hers-and-theirs-dice/graphics/${customFace}`];
-    case "d24": return Array(24).fill().map((_, i) => (i + 1).toString());
-    case "d30": return Array(30).fill().map((_, i) => (i + 1).toString());
-    case "d100": return ["10", "20", "30", "40", "50", "60", "70", "80", "90", "00"];
-    case "df": return ["-", " ", " ", "+", "+", "-"];
-    default: return Array(6).fill().map((_, i) => (i + 1).toString());
+function getLabelsForDiceType(type, customFaces) {
+  const labels = [];
+
+  // Helper function inside the function
+  function getCustomFaceOrNumber(i) {
+    return customFaces[type]?.[i] ? `${customFacesPath}/${customFaces[type][i]}` : i.toString();
   }
+
+  switch (type) {
+    case "d2":
+      labels.push(getCustomFaceOrNumber(1), getCustomFaceOrNumber(2));
+      break;
+
+    case "d3":
+      for (let i = 1; i <= 3; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d4":
+      for (let i = 1; i <= 4; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d5":
+      for (let i = 1; i <= 5; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d6":
+      for (let i = 1; i <= 6; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d7":
+      for (let i = 1; i <= 7; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d8":
+      for (let i = 1; i <= 8; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d10":
+      for (let i = 1; i <= 10; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d12":
+      for (let i = 1; i <= 12; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d14":
+      for (let i = 1; i <= 14; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d16":
+      for (let i = 1; i <= 16; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d20":
+      for (let i = 1; i <= 20; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d24":
+      for (let i = 1; i <= 24; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d30":
+      for (let i = 1; i <= 30; i++) {
+        labels.push(getCustomFaceOrNumber(i));
+      }
+      break;
+
+    case "d100":
+      for (let i = 0; i < 10; i++) {
+        const value = i === 9 ? "00" : (i + 1) * 10;
+        labels.push(getCustomFaceOrNumber(value));
+      }
+      break;
+
+    case "df":
+      labels.push(
+        getCustomFaceOrNumber("-"),
+        getCustomFaceOrNumber(" "),
+        getCustomFaceOrNumber(" "),
+        getCustomFaceOrNumber("+"),
+        getCustomFaceOrNumber("+"),
+        getCustomFaceOrNumber("-")
+      );
+      break;
+
+    default:
+      return labels // Dont need fallback
+  }
+  return labels
 }
 
 function getShapesForDiceType(type) {
@@ -149,36 +188,49 @@ function getShapesForDiceType(type) {
   return shapes[type] || "d6";
 }
 
-function getEmissiveMaps(labels, customFace, glowTarget) {
-  if (glowTarget === "faces") {
-    return labels.map(label => {
-      if (label === `modules/his-hers-and-theirs-dice/graphics/${customFace}`) {
-        // Check if the emissive map exists
-        const emissiveMap = `modules/his-hers-and-theirs-dice/graphics/${customFace.replace(/(\.webp|\.png)$/, '_emissive.png')}`;
-        return checkImageExists(emissiveMap) ? emissiveMap : label;
-      }
-      return label;
-    });
-  } else if (glowTarget === "numbers") {
-    return labels;  // This will make all numbers glow
-  } else {
-    return Array(labels.length).fill(null);  // No emissive maps
+function getEmissiveMaps(labels, customFaces, glowTarget) {
+  switch (glowTarget) {
+    case "all":
+      return labels.map(label => {
+        if (label.includes(customFacesPath)) {
+          const emissiveMap = label.replace(customFacesPath, customEmissivePath);
+          return checkImageExists(emissiveMap) ? emissiveMap : label;
+        }
+        return label; // Non-custom faces remain unchanged
+      });
+
+    case "numbers":
+      return labels.map(label =>
+        label.includes(customFacesPath) ? null : label // Only numbers glow
+      );
+
+    case "faces":
+      return labels.map(label => {
+        if (label.includes(customFacesPath)) {
+          const emissiveMap = label.replace(customFacesPath, customEmissivePath);
+          return checkImageExists(emissiveMap) ? emissiveMap : label;
+        }
+        return null; // Other faces get no emissive map
+      });
+
+    default:
+      return Array(labels.length).fill(null); // No emissive maps
   }
 }
 
 function getFontScaleForDiceType(type) {
   const fontScales = {
-    "d2": 1.5,
+    "d2": 1.4,
     "d3": 1.1,
     "d4": 1.0,
-    "d5": 1.1,
+    "d5": 1.0,
     "d6": 1.1,
-    "d7": 1.0,
+    "d7": 0.7,
     "d8": 1.0,
     "d10": 1.0,
     "d12": 1.1,
-    "d14": 1.0,
-    "d16": 1.0,
+    "d14": 0.75,
+    "d16": 0.8,
     "d20": 1.0,
     "d24": 0.9,
     "d30": 0.9,

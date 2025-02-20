@@ -1,0 +1,97 @@
+themes:
+  - themeName: Detta
+    primaryColor: '#1B1F3B'
+    edgeColor: '#C0C0C0'
+    fontColor: '#FFFFFF'
+    texture: metal
+    material: metal
+    font: Cinzel Decorative
+    customFaces:
+      d2:
+        '2': detta.webp
+      d6:
+        '6': detta.webp
+      d20:
+        '20': detta.webp
+    glowColor: 9359868
+    glowTarget: all
+  - themeName: Flodin
+    primaryColor: '#8B4513'
+    edgeColor: '#FFD700'
+    fontColor: '#FFFFFF'
+    texture: metal
+    material: metal
+    font: Rakkas
+    customFaces:
+      d2:
+        '2': flodin.webp
+      d6:
+        '6': flodin.webp
+      d20:
+        '20': flodin.webp
+    glowColor: 16753920
+    glowTarget: all
+  - themeName: Saris
+    primaryColor: '#0A0A0A'
+    edgeColor: '#5A3E72'
+    fontColor: '#FFFFFF'
+    texture: marble
+    material: glass
+    font: Spectral SC
+    customFaces:
+      d2:
+        '2': saris.webp
+      d6:
+        '6': saris.webp
+      d20:
+        '20': saris.webp
+    glowColor: 5914226
+    glowTarget: all
+  - themeName: Trista
+    primaryColor: '#A10000'
+    edgeColor: '#4D4D4D'
+    fontColor: '#FFFFFF'
+    material: pristine
+    font: Uncial Antiqua
+    customFaces:
+      d2:
+        '2': trista.webp
+      d6:
+        '6': trista.webp
+      d20:
+        '20': trista.webp
+  - themeName: Vidya
+    primaryColor: '#2E8B57'
+    edgeColor: '#C0C0C0'
+    fontColor: '#8ED1FC'
+    texture: wood
+    material: pristine
+    font: IM Fell English SC
+    customFaces:
+      d2:
+        '2': vidya.webp
+      d6:
+        '6': vidya.webp
+      d20:
+        '20': vidya.webp
+    glowColor: 9359868
+    glowTarget: all
+  - themeName: Strahd
+    primaryColor: '#8B0000'
+    edgeColor: '#000000'
+    fontColor: '#C0C0C0'
+    texture: astral
+    material: polished
+    font: Uncial Antiqua
+    customFaces:
+      d2:
+        '1': bat.webp
+        '2': strahd.webp
+      d6:
+        '1': bat.webp
+        '6': strahd.webp
+      d20:
+        '1': bat.webp
+        '20': strahd.webp
+    glowColor: 5914226
+    glowTarget: all

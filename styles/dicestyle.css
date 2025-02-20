@@ -1,72 +1,50 @@
 /* Load Cinzel Decorative */
 @font-face {
-    font-family: 'Cinzel Decorative';
-    src: url('../fonts/Cinzel_Decorative/CinzelDecorative-Regular.ttf') format('truetype');
-    font-weight: normal;
-  }
-  @font-face {
-    font-family: 'Cinzel Decorative';
-    src: url('../fonts/Cinzel_Decorative/CinzelDecorative-Bold.ttf') format('truetype');
-    font-weight: bold;
-  }
-  @font-face {
-    font-family: 'Cinzel Decorative';
-    src: url('../fonts/Cinzel_Decorative/CinzelDecorative-Black.ttf') format('truetype');
-    font-weight: 900;
-  }
+  font-family: 'Cinzel Decorative';
+  src: url('../assets/fonts/Cinzel_Decorative/CinzelDecorative-Regular.ttf') format('truetype');
+}
 
-  /* Load IM Fell English SC */
-  @font-face {
-    font-family: 'IM Fell English SC';
-    src: url('../fonts/IM_Fell_English_SC/IMFellEnglishSC-Regular.ttf') format('truetype');
-  }
+/* Load IM Fell English SC */
+@font-face {
+  font-family: 'IM Fell English SC';
+  src: url('../assets/fonts/IM_Fell_English_SC/IMFellEnglishSC-Regular.ttf') format('truetype');
+}
 
-  /* Load Rakkas */
-  @font-face {
-    font-family: 'Rakkas';
-    src: url('../fonts/Rakkas/Rakkas-Regular.ttf') format('truetype');
-  }
+/* Load Rakkas */
+@font-face {
+  font-family: 'Rakkas';
+  src: url('../assets/fonts/Rakkas/Rakkas-Regular.ttf') format('truetype');
+}
 
-  /* Load Spectral SC */
-  @font-face {
-    font-family: 'Spectral SC';
-    src: url('../fonts/Spectral_SC/SpectralSC-Regular.ttf') format('truetype');
-    font-weight: normal;
-  }
-  @font-face {
-    font-family: 'Spectral SC';
-    src: url('../fonts/Spectral_SC/SpectralSC-Bold.ttf') format('truetype');
-    font-weight: bold;
-  }
-  @font-face {
-    font-family: 'Spectral SC';
-    src: url('../fonts/Spectral_SC/SpectralSC-Italic.ttf') format('truetype');
-    font-style: italic;
-  }
+/* Load Spectral SC */
+@font-face {
+  font-family: 'Spectral SC';
+  src: url('../assets/fonts/Spectral_SC/SpectralSC-Regular.ttf') format('truetype');
+}
 
-  /* Load Uncial Antiqua */
-  @font-face {
-    font-family: 'Uncial Antiqua';
-    src: url('../fonts/Uncial_Antiqua/UncialAntiqua-Regular.ttf') format('truetype');
-  }
+/* Load Uncial Antiqua */
+@font-face {
+  font-family: 'Uncial Antiqua';
+  src: url('../assets/fonts/Uncial_Antiqua/UncialAntiqua-Regular.ttf') format('truetype');
+}
 
-  /* Apply fonts to Dice So Nice dice rolls */
-  .dice-roll {
-    font-family: 'Cinzel Decorative', serif;
-  }
+/* Apply fonts to Dice So Nice dice rolls */
+.dice-roll {
+  font-family: 'Cinzel Decorative', serif;
+}
 
-  .dice-roll.im-fell {
-    font-family: 'IM Fell English SC', serif;
-  }
+.dice-roll.im-fell {
+  font-family: 'IM Fell English SC', serif;
+}
 
-  .dice-roll.rakkas {
-    font-family: 'Rakkas', cursive;
-  }
+.dice-roll.rakkas {
+  font-family: 'Rakkas', cursive;
+}
 
-  .dice-roll.spectral {
-    font-family: 'Spectral SC', serif;
-  }
+.dice-roll.spectral {
+  font-family: 'Spectral SC', serif;
+}
 
-  .dice-roll.uncial {
-    font-family: 'Uncial Antiqua', serif;
-  }
+.dice-roll.uncial {
+  font-family: 'Uncial Antiqua', serif;
+}
