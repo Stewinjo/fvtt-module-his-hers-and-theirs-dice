@@ -24,17 +24,17 @@ Hooks.on('diceSoNiceReady', async function () {
       font: theme.font
     }, "default");
 
-    applyAllDicePresets(theme);
+    await applyAllDicePresets(theme);
   }
 
   console.log("HHTD | All custom dice themes and systems have been registered!");
 });
 
-function applyAllDicePresets(theme) {
+async function applyAllDicePresets(theme) {
   const diceTypes = ["d2", "d3", "d4", "d5", "d6", "d7", "d8", "d10", "d12", "d14", "d16", "d20", "d24", "d30", "d100", "df"];
-  diceTypes.forEach(type => {
+  for (const type of diceTypes) {
     const labels = getLabelsForDiceType(type, theme.customFaces);
-    const emissiveMaps = theme.glowTarget ? getEmissiveMaps(labels, theme.customFaces, theme.glowTarget) : Array(labels.length).fill(null);
+    const emissiveMaps = theme.glowTarget ? await getEmissiveMaps(labels, theme.customFaces, theme.glowTarget) : Array(labels.length).fill(null);
     const shape = getShapesForDiceType(type);
 
     game.dice3d.addDicePreset({
@@ -47,7 +47,7 @@ function applyAllDicePresets(theme) {
       font: theme.font,
       fontScale: getFontScaleForDiceType(type)
     }, shape);
-  });
+  }
 }
 
 function getLabelsForDiceType(type, customFaces) {
@@ -188,16 +188,16 @@ function getShapesForDiceType(type) {
   return shapes[type] || "d6";
 }
 
-function getEmissiveMaps(labels, customFaces, glowTarget) {
+async function getEmissiveMaps(labels, customFaces, glowTarget) {
   switch (glowTarget) {
     case "all":
-      return labels.map(label => {
+      return Promise.all(labels.map(async label => {
         if (label.includes(customFacesPath)) {
           const emissiveMap = label.replace(customFacesPath, customEmissivePath);
-          return checkImageExists(emissiveMap) ? emissiveMap : label;
+          return (await checkImageExists(emissiveMap)) ? emissiveMap : label;
         }
         return label; // Non-custom faces remain unchanged
-      });
+      }));
 
     case "numbers":
       return labels.map(label =>
@@ -205,13 +205,13 @@ function getEmissiveMaps(labels, customFaces, glowTarget) {
       );
 
     case "faces":
-      return labels.map(label => {
+      return Promise.all(labels.map(async label => {
         if (label.includes(customFacesPath)) {
           const emissiveMap = label.replace(customFacesPath, customEmissivePath);
-          return checkImageExists(emissiveMap) ? emissiveMap : label;
+          return (await checkImageExists(emissiveMap)) ? emissiveMap : label;
         }
         return null; // Other faces get no emissive map
-      });
+      }));
 
     default:
       return Array(labels.length).fill(null); // No emissive maps
