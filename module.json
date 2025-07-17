@@ -1,11 +1,11 @@
 {
   "id": "his-hers-and-theirs-dice",
   "title": "His, Hers and Theirs Dice!",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "compatibility": {
-    "minimum": "12",
-    "verified": "12",
-    "maximum": "12"
+    "minimum": "13",
+    "verified": "13",
+    "maximum": "13"
   },
   "esmodules": ["scripts/main.js"],
   "styles": ["styles/dicestyle.css"],
