@@ -242,9 +242,9 @@ function getFontScaleForDiceType(type) {
 }
 
 // Helper function to check if an image exists
-function checkImageExists(imageREDACTEDh) {
+function checkImageExists(imagePath) {
   const img = new Image();
-  img.src = imageREDACTEDh;
+  img.src = imagePath;
   return new Promise(resolve => {
     img.onload = () => resolve(true);
     img.onerror = () => resolve(false);

@@ -24,15 +24,15 @@ Then enable the module in your game settings under **Manage Modules**.
 This module depends on the following module:
 
 - **[Dice So Nice!](https://foundryvtt.com/packages/dice-so-nice)**
-  - Version: Latest compatible with Foundry VTT 12
+  - Version: Latest compatible with Foundry VTT 13
 
 Please ensure that **Dice So Nice!** is installed and enabled in your game for this module to work properly.
 
 ---
 
 ### 🛠️ Compatibility
-- **Minimum Foundry VTT Version:** 12
-- **Verified Version:** 12
+- **Minimum Foundry VTT Version:** 13
+- **Verified Version:** 13
 
 ---
 
