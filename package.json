@@ -1,0 +1,20 @@
+{
+  "name": "his-hers-and-theirs-dice",
+  "version": "3.1.0",
+  "description": "A custom module that adds unique Dice So Nice! themes modeled after renowned PCs and NPCs.",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint scripts/**/*.js",
+    "lint:fix": "eslint scripts/**/*.js --fix",
+    "stylelint": "stylelint styles/**/*.css",
+    "stylelint:fix": "stylelint styles/**/*.css --fix",
+    "lint:all": "npm run lint && npm run stylelint",
+    "lint:all:fix": "npm run lint:fix && npm run stylelint:fix"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard": "^36.0.0"
+  },
+  "private": true
+}
