@@ -5,7 +5,7 @@ An addon for **Dice So Nice!** that brings custom dice themes inspired by renown
 These are the custom dice themes currently available in this module:
 
 1. **Detta** – Midnight blue with metallic silver edges and Cinzel Decorative font, featuring a serene and ethereal aesthetic.
-2. **Flodin** – Burnt orange with steel gray edges and Rakkas font.4
+2. **Flodin** – Burnt orange with steel gray edges and Rakkas font.
 3. **Saris** – Raven black with dark violet edges and Spectral SC font (Steffen’s theme).
 4. **Strahd** – Ominous deep crimson with black edges and a dark gothic aesthetic, featuring exclusive artwork of **Strahd von Zarovich**.
 5. **Trista** – Blood red with dark gray edges and Uncial Antiqua font.
