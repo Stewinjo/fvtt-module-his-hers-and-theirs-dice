@@ -5,35 +5,56 @@ const customEmissivePath = "modules/his-hers-and-theirs-dice/assets/graphics/emi
 const supportedDiceTypes = ["d2", "d3", "d4", "d5", "d6", "d7", "d8", "d10", "d12", "d14", "d16", "d20", "d24", "d30", "d100", "df"];
 
 Hooks.on("diceSoNiceReady", async () => {
-  console.log("HHTD | Dice So Nice! is ready. Registering custom themes...");
-
-  const themes = await readYAML("modules/his-hers-and-theirs-dice/assets/themes.yaml"); // Import theme definitions
-
-  for (const theme of themes) {
-    const themeId = theme.themeName;
-
-    game.dice3d.addSystem({ id: themeId, name: themeId }, "default");
-
-    game.dice3d.addColorset(
-      {
-        name: themeId,
-        description: `${themeId}'s theme`,
-        category: "His, Hers and Theirs Dice",
-        foreground: theme.fontColor,
-        background: theme.primaryColor,
-        edge: theme.edgeColor,
-        outline: "#000000",
-        texture: theme.texture,
-        material: theme.material,
-        font: theme.font
-      },
-      "default"
-    );
-
-    await applyAllDicePresets(theme);
+  if (!game.dice3d) {
+    console.error("HHTD | Dice So Nice! is not available");
+    return;
   }
 
-  console.log("HHTD | All custom dice themes and systems have been registered!");
+  console.log("HHTD | Dice So Nice! is ready. Registering custom themes...");
+
+  try {
+    const themes = await readYAML("modules/his-hers-and-theirs-dice/assets/themes.yaml");
+
+    if (!Array.isArray(themes) || themes.length === 0) {
+      console.warn("HHTD | No themes found in themes.yaml");
+      return;
+    }
+
+    for (const theme of themes) {
+      if (!theme.themeName) {
+        console.warn("HHTD | Skipping theme with missing themeName");
+        continue;
+      }
+
+      const themeId = theme.themeName;
+
+      // Register system (base on "default" system)
+      game.dice3d.addSystem({ id: themeId, name: themeId }, "default");
+
+      // Register colorset (belongs to the theme's system, not "default")
+      game.dice3d.addColorset(
+        {
+          name: themeId,
+          description: `${themeId}'s theme`,
+          category: "His, Hers and Theirs Dice",
+          foreground: theme.fontColor,
+          background: theme.primaryColor,
+          edge: theme.edgeColor,
+          outline: "#000000",
+          texture: theme.texture,
+          material: theme.material,
+          font: theme.font
+        },
+        themeId // Register to theme's system, matching the dice presets
+      );
+
+      await applyAllDicePresets(theme);
+    }
+
+    console.log("HHTD | All custom dice themes and systems have been registered!");
+  } catch (error) {
+    console.error("HHTD | Failed to register themes:", error);
+  }
 });
 
 async function applyAllDicePresets(theme) {

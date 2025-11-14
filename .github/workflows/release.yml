@@ -1,0 +1,72 @@
+name: Create Release Archive
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version from module.json
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./module.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+          # Get version from tag (remove 'v' prefix)
+          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
+          echo "tag_version=$TAG_VERSION" >> $GITHUB_OUTPUT
+          echo "Tag version: $TAG_VERSION"
+
+          # Verify versions match
+          if [ "$VERSION" != "$TAG_VERSION" ]; then
+            echo "ERROR: Version in module.json ($VERSION) does not match tag version ($TAG_VERSION)"
+            exit 1
+          fi
+
+      - name: Create clean module archive
+        run: |
+          MODULE_DIR="his-hers-and-theirs-dice"
+
+          # Create a temporary directory with only module files
+          mkdir -p release/$MODULE_DIR
+
+          # Copy required files
+          cp module.json release/$MODULE_DIR/
+          cp README.md release/$MODULE_DIR/ 2>/dev/null || true
+          cp LICENSE release/$MODULE_DIR/ 2>/dev/null || true
+
+          # Copy directories referenced in module.json
+          cp -r scripts release/$MODULE_DIR/
+          cp -r styles release/$MODULE_DIR/
+          cp -r assets release/$MODULE_DIR/
+
+          # Create zip archive (with module folder inside)
+          cd release
+          zip -r ../module-release.zip $MODULE_DIR/
+          cd ..
+
+          echo "Created clean module archive excluding dev files"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: module-release.zip
+          tag_name: ${{ env.TAG_VERSION }}
+          name: Version ${{ env.VERSION }}
+          body: |
+            ## Version ${{ env.VERSION }}
+
+            See [CHANGELOG](https://github.com/${{ github.repository }}/blob/main/README.md) for details.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

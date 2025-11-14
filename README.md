@@ -32,7 +32,7 @@ Please ensure that **Dice So Nice!** is installed and enabled in your game for t
 
 ### Compatibility
 - **Minimum Foundry VTT Version:** 13
-- **Verified Version:** 13
+- **Verified Version:** 13 Build 351
 
 ---
 
